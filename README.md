@@ -81,7 +81,8 @@ Run the following commands to set read/write permissions for the folders where t
 
 ```yaml
  cd editor
- 
+
+ chgrp -R www-data  datafiles files logs
  chmod -R 775 datafiles files logs
 ```
 
