@@ -14,9 +14,9 @@ services:
       - mysql
     environment:
       DB_HOST: mysql
-      DB_DATABASE: nada_docker
-      DB_USERNAME: nada_user
-      DB_PASSWORD: nada_password      
+      DB_DATABASE: metadataeditor_docker
+      DB_USERNAME: metadataeditor_user
+      DB_PASSWORD: metadataeditor_password      
   mysql:
       image: mysql:5.7
       container_name: mysql-57-metadata-editor
@@ -24,7 +24,7 @@ services:
       ports:
         - 13307:3306
       environment:
-        MYSQL_DATABASE: nada_docker
-        MYSQL_USER: nada_user
-        MYSQL_PASSWORD: nada_password
+        MYSQL_DATABASE: metadataeditor_docker
+        MYSQL_USER: metadataeditor_user
+        MYSQL_PASSWORD: metadataeditor_password
         MYSQL_ROOT_PASSWORD: root
