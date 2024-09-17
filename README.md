@@ -14,7 +14,7 @@ The docker image contains:
 
 - MySQL 5.x
 
-Follow these steps to configure NADA and run the docker container.
+Follow these steps to configure Metadata Editor and run the docker container.
 
 1. Setup folders to host Metadata Editor Docker source and the Docker files
 
@@ -57,7 +57,7 @@ cp database.php nada/application/config/database.php
 
 Before you can start the docker container, review the `docker-composer.yml` to make sure all settings are correct:
 
-Apache port: The default is set to 8383, you may want to change that to port 80. *(N.B. needs to be 0.0.0.0 on my server)*
+Apache port: The default is set to 8383, you may want to change that to another port if Nada is running in another container. *(N.B. needs to be 0.0.0.0 on my server)*
 
 ```yaml
     ports:
@@ -97,7 +97,7 @@ docker compose up
 
 ```
 
-That should build the image and launch the containers. If everything works, you should be able to see the Metadata installer at http://localhost:8383/.
+That should build the image and launch the containers. If everything works, you should be able to see the Metadata installer at http://localhost:8383/ (change 8383 to the port you used in docker compose)
 
 
 
