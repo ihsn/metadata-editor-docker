@@ -104,7 +104,8 @@ That should build the image and launch the containers. If everything works, you 
 ### Setup
 
 
-
+### Fixed
+- user rights with docker (might need to be adjusted to every host)
 
 
 ## TODO
