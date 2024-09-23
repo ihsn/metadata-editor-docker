@@ -52,39 +52,67 @@ git clone https://github.com/ihsn/editor
 git clone https://github.com/mah0001/pydatatools
 
 #copy database.php file to `application/config/database.php`
-cp database.php nada/application/config/database.php
+cp database.php editor/application/config/database.php
 ```
 
 Before you can start the docker container, review the `docker-composer.yml` to make sure all settings are correct:
 
-Apache port: The default is set to 8383, you may want to change that to another port if Nada is running in another container. *(N.B. needs to be 0.0.0.0 on my server)*
+Apache port: The default is set to 8383, you may want to change that to another port if you have another service running on port 8383.
 
 ```yaml
     ports:
       - "0.0.0.0:8383:80"
 ```
 
-Mount volume: If you are using the project folder structure as above, there is no change needed. Otherwise, update the volume to map your local metadata editor folder.
+## Data folder [app_data]
+
+The Metadata Editor stores data in the `app_data` folder. Create the following folders in the project root:
+
+```bash
+mkdir app_data
+cd app_data
+mkdir editor tmp
+```
+
+
+### Permissions
+
+Set permissions for the `app_data` folder to allow the Apache server to read and write data.
+
+```bash
+ chgrp -R www-data  app_data
+ chmod -R 775 app_data
+```
+
+## Set permissions for Metadata Editor folders
+
+```bash
+ cd editor
+
+ chgrp -R www-data  files logs
+ chmod -R 775 files logs
+```
+
+## Volume mapping
+
+If you are using the project folder structure as above, there is no change needed. Otherwise, update the volume to map your local metadata editor folder.
+
 
 ```yaml
     volumes:
       - ./editor:/var/www/html/editor
+      - ./app_data:/var/www/html/editor/datafiles
 ```
 
 
+## Copy database.php to config folder
 
-*Copy database.php to config folder*
+Editor does not come with a database.php file. You need to copy the database.php file from the docker folder to the `editor/application/config` folder.
 
-
-
-Run the following commands to set read/write permissions for the folders where the data will be stored:
-
-```yaml
- cd editor
-
- chgrp -R www-data  datafiles files logs
- chmod -R 775 datafiles files logs
+```bash
+cp database.php editor/application/config/database.php
 ```
+
 
 
 
