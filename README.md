@@ -31,6 +31,7 @@ metadata_editor_docker
 └───editor (metadata editor source code)
 |
 └───pydatatools
+|
 └───app_data
     └───editor
     └───tmp
