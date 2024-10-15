@@ -16,8 +16,7 @@ The docker image contains:
 
 Follow these steps to configure Metadata Editor and run the docker container.
 
-1. Setup folders to host Metadata Editor Docker source and the Docker files
-
+At the end of the process, your folder structure should look like this
 ```
 metadata_editor_docker 
 |
@@ -31,7 +30,10 @@ metadata_editor_docker
 |
 └───editor (metadata editor source code)
 |
-└───pydatatools 
+└───pydatatools
+└───app_data
+    └───editor
+    └───tmp
 |...
 │
 ```
@@ -40,33 +42,31 @@ To download the docker and docker source code and setup the project folder struc
 
 ```bash
 #clone repo 
-git clone https://github.com/vbeinserm/metadata-editor-docker metadata-editor-docke
+git clone https://github.com/vbeinserm/metadata-editor-docker metadata-editor-docker
 
 #switch to project folder
 cd metadata-editor-docker
 
 #download metadata editor source code into a subfolder
-git clone https://github.com/ihsn/editor
+git clone https://github.com/ihsn/editor editor
 
 #download metadata editor source code into a subfolder
-git clone https://github.com/mah0001/pydatatools
+git clone https://github.com/mah0001/pydatatools pydatatools
 
-#copy database.php file to `application/config/database.php`
-cp database.php editor/application/config/database.php
 ```
 
 Before you can start the docker container, review the `docker-composer.yml` to make sure all settings are correct:
 
-Apache port: The default is set to 8383, you may want to change that to another port if you have another service running on port 8383.
+Apache port: The default port has been set to 8384, as nada docker uses 8383 by default
 
 ```yaml
     ports:
-      - "0.0.0.0:8383:80"
+      - "0.0.0.0:8384:80"
 ```
 
 ## Data folder [app_data]
 
-The Metadata Editor stores data in the `app_data` folder. Create the following folders in the project root:
+The Metadata Editor stores data in the `app_data` folder. Create the following folders in the project metadata-editor-docker root:
 
 ```bash
 mkdir app_data
@@ -75,9 +75,10 @@ mkdir editor tmp
 ```
 
 
-### Permissions
+### Permissions in app_data
 
 Set permissions for the `app_data` folder to allow the Apache server to read and write data.
+Note : folder rights is dependent on your server's configuration.
 
 ```bash
  chgrp -R www-data  app_data
@@ -85,12 +86,14 @@ Set permissions for the `app_data` folder to allow the Apache server to read and
 ```
 
 ## Set permissions for Metadata Editor folders
+Set permissions for the `editor` folders to allow the Apache server to read and write data.
+Note : folder rights is dependent on your server's configuration.
 
 ```bash
  cd editor
 
- chgrp -R www-data  files logs
- chmod -R 775 files logs
+ chgrp -R www-data  files logs cache
+ chmod -R 775 files logs cache
 ```
 
 ## Volume mapping
@@ -130,31 +133,23 @@ That should build the image and launch the containers. If everything works, you 
 
 
 ### Setup
+Depending on your installation, either use localhost (for local install) or server adresse (ip or url).
+```
+http://[localhost|server adress]:8384/
+```
+You should be redirected to install page.
 
+Check the F**older READ/WRITE/DELETE permissions** section.
+Everything should be ok, so adjust your folder permissions accordingly.
 
-### Fixed
-- user rights with docker (might need to be adjusted to every host)
-
+Then,
+- Install Database
+- Setup administrator
 
 ## TODO
 
-- Mysql : upgrade to 8
 - SMTP setup
-- pydatatools setup
 
-
-
-## Ideas
-
-- Create a common docker for Nada & Metadata Editor ?
-
-  - Easier to have a fully fuctionnal environment
-  - No need to use different port for Nada & Metadata Editor
-  - One mysql container with two databases
-
-- Push the code inside the docker and not in volume?
-
-  - Automatize git clone
 
     
 
