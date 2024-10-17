@@ -1,30 +1,51 @@
 version: '3'
+#name: metadata_editor
 services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-metadata-editor
     image: metadata_editor
     ports:
       - "0.0.0.0:8384:80"
     volumes:
       - ./editor:/var/www/html/editor
-      
+      - ./app_data:/var/www/html/editor/datafiles
     links:
       - mysql
     environment:
       DB_HOST: mysql
-      DB_DATABASE: metadataeditor_docker
-      DB_USERNAME: metadataeditor_user
-      DB_PASSWORD: metadataeditor_password      
+      DB_DATABASE: editor_db
+      DB_USERNAME: editor_user
+      DB_PASSWORD: editor_pass
+
+      # pydatatools FastAPI service URL
+      # default service runs on port 80 in the container. Using the service name as the hostname
+      EDITOR_DATA_API_URL: http://pydatatools:80/
+  pydatatools:
+    build:
+      context: .
+      dockerfile: Dockerfile-fastapi
+    image: pydatatools
+    #networks:
+    #  - editor_network
+    ports:
+      - "8385:80"
+    volumes:
+      - ./pydatatools:/pydatatools
+      - ./app_data:/var/www/html/editor/datafiles
   mysql:
-      image: mysql:5.7
-      container_name: mysql-57-metadata-editor
+      image: mysql:8.0
+      container_name: mysql-db
       restart: always
+
+      volumes:
+        - ./mysql:/var/lib/mysql          
+      
       ports:
         - 13307:3306
       environment:
-        MYSQL_DATABASE: metadataeditor_docker
-        MYSQL_USER: metadataeditor_user
-        MYSQL_PASSWORD: metadataeditor_password
-        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: editor_db
+        MYSQL_USER: editor_user
+        MYSQL_PASSWORD: editor_pass
+        MYSQL_ROOT_PASSWORD: rootPassword!
