@@ -12,7 +12,7 @@ The docker image contains:
   - mbstring
   - mysqli
 
-- MySQL 5.x
+- MySQL 8.x
 
 Follow these steps to configure Metadata Editor and run the docker container.
 
@@ -43,7 +43,7 @@ To download the docker and docker source code and setup the project folder struc
 
 ```bash
 #clone repo 
-git clone https://github.com/vbeinserm/metadata-editor-docker metadata-editor-docker
+git clone https://github.com/ihsn/metadata-editor-docker metadata-editor-docker
 
 #switch to project folder
 cd metadata-editor-docker
@@ -146,13 +146,3 @@ Everything should be ok, so adjust your folder permissions accordingly.
 Then,
 - Install Database
 - Setup administrator
-
-## TODO
-
-- SMTP setup
-
-
-    
-
-- Credentials handling
-  - In case of DDOS attack, using a require() on a .php file not in /var/www/html prevents the Database.php to show in browser directly
